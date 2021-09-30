@@ -63,7 +63,7 @@ spec:
 				       	sh 'docker login -u $username -p $password'
 						echo USERNAME
 						echo "username is $USERNAME"
-						sh 'docker push akhilzemoso/fe_fgt_jenkins:latest'
+						sh 'docker push akhilzemoso/be_budget_jenkins:latest'
 					    	}	           
 				}
 			}
