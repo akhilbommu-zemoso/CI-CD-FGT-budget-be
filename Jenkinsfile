@@ -56,7 +56,7 @@ spec:
 	    
 		stage('Push Docker'){
 			steps{
-				container('docker'){
+				container('fgt-docker'){
 					sh 'ls'
 				    	withCredentials([usernamePassword(credentialsId: 'akhil-dockerhub', usernameVariable: 'username', passwordVariable: 'password')]) {
 						sh 'echo $PASSWORD'
