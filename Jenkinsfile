@@ -41,7 +41,7 @@ spec:
 		stage('Build Jar'){
 			steps{
 				container('fgt-java'){
-					sh 'mvn clean package'
+					sh 'mvn -B -DskipTests clean package'
 				}    
 			}
 		}
