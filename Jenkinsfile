@@ -56,10 +56,15 @@ spec:
 	    
 		stage('Push Docker'){
 			steps{
-				container('fgt-docker'){
+				container('docker'){
 					sh 'ls'
-					sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-					sh 'docker push akhilzemoso/be_budget_jenkins:latest'
+				    	withCredentials([usernamePassword(credentialsId: 'akhil-dockerhub', usernameVariable: 'username', passwordVariable: 'password')]) {
+						sh 'echo $PASSWORD'
+				       	sh 'docker login -u $username -p $password'
+						echo USERNAME
+						echo "username is $USERNAME"
+						sh 'docker push akhilzemoso/fe_fgt_jenkins:latest'
+					    	}	           
 				}
 			}
 		}
