@@ -28,7 +28,7 @@ spec:
 	}
 			
 	environment {
-		docker_image=""
+		VERSION = "${env.GIT_COMMIT}"
 		DOCKERHUB_CREDENTIALS= credentials('akhil-dockerhub')
 		MY_KUBECONFIG = credentials('master2-rishmita')
 	}
@@ -48,7 +48,7 @@ spec:
 		stage('Build Docker'){
 			steps{
 				container('fgt-docker'){
-					sh 'docker build -t akhilzemoso/be_budget_jenkins:latest .'
+					sh 'docker build -t akhilzemoso/be_budget_jenkins:${VERSION} .'
 					sh 'docker images'
 				}
 			}  
@@ -63,7 +63,7 @@ spec:
 				       	sh 'docker login -u $username -p $password'
 						echo USERNAME
 						echo "username is $USERNAME"
-						sh 'docker push akhilzemoso/be_budget_jenkins:latest'
+						sh 'docker push akhilzemoso/be_budget_jenkins:${VERSION}'
 					    	}	           
 				}
 			}
