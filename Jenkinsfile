@@ -31,6 +31,9 @@ podTemplate(label: 'fgt-budget-be', containers: [
 				}         
 			}
 		}
+		stage ('Invoking helm build') {
+		    build job: 'fgt'
+	    	}
 	}
 }
 	
