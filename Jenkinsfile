@@ -7,7 +7,6 @@ podTemplate(label: 'fgt-budget-be', containers: [
 ){
 	node('fgt-budget-be'){
 		environment {
-			//VERSION = "${env.GIT_COMMIT}"
 			DOCKERHUB_CREDENTIALS= credentials('akhil-dockerhub')
 		}
 		stage('Build Jar'){
@@ -18,7 +17,8 @@ podTemplate(label: 'fgt-budget-be', containers: [
 		}
 		stage('Build Docker'){
 			container('fgt-docker'){
-				sh 'docker build -t akhilzemoso/be_budget_jenkins:latest .'
+				sh 'docker build -t akhilzemoso/be_budget_jenkins:{BUILD_NUMBER} .'
+				sh 'docker tag akhilzemoso/be_budget_jenkins:latest akhilzemoso/be_budget_jenkins:${BUILD_NUMBER}'
 				sh 'docker images'
 			}
 		}  
@@ -28,11 +28,12 @@ podTemplate(label: 'fgt-budget-be', containers: [
 				withCredentials([usernamePassword(credentialsId: 'akhil-dockerhub', usernameVariable: 'username', passwordVariable: 'password')]) {
 					sh 'docker login -u $username -p $password'
 					sh 'docker push akhilzemoso/be_budget_jenkins:latest'
+					sh 'docker push akhilzemoso/be_budget_jenkins:${BUILD_NUMBER}'
 				}         
 			}
 		}
 		stage ('Invoking helm build') {
-		    build job: 'fgt'
+		    build job: 'fgt', parameters: [string(name: 'be_budget_tag', value: BUILD_NUMBER)]
 	    	}
 	}
 }
