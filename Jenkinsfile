@@ -19,7 +19,7 @@ podTemplate(label: 'fgt-budget-be', containers: [
 			container('fgt-docker'){
 				sh 'docker build -t akhilzemoso/be_budget_jenkins:latest .'
 				sh 'docker tag akhilzemoso/be_budget_jenkins:latest akhilzemoso/be_budget_jenkins:${BUILD_NUMBER}'
-				sh 'docker images'
+				// sh 'docker images'
 			}
 		}  
 		stage('Push Docker'){
